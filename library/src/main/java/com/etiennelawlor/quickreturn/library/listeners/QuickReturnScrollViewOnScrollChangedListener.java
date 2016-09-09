@@ -3,7 +3,7 @@ package com.etiennelawlor.quickreturn.library.listeners;
 import android.view.View;
 import android.widget.ScrollView;
 
-import com.etiennelawlor.quickreturn.library.enums.QuickReturnType;
+import com.etiennelawlor.quickreturn.library.enums.QuickReturnViewType;
 import com.etiennelawlor.quickreturn.library.views.NotifyingScrollView;
 
 /**
@@ -12,42 +12,42 @@ import com.etiennelawlor.quickreturn.library.views.NotifyingScrollView;
 public class QuickReturnScrollViewOnScrollChangedListener implements NotifyingScrollView.OnScrollChangedListener {
 
     // region Member Variables
-    private int mMinFooterTranslation;
-    private int mMinHeaderTranslation;
+    private final QuickReturnViewType mQuickReturnViewType;
+    private final View mHeader;
+    private final int mMinHeaderTranslation;
+    private final View mFooter;
+    private final int mMinFooterTranslation;
+
     private int mHeaderDiffTotal = 0;
     private int mFooterDiffTotal = 0;
-    private View mHeader;
-    private View mFooter;
-    private QuickReturnType mQuickReturnType;
     // endregion
 
     // region Constructors
-    public QuickReturnScrollViewOnScrollChangedListener(QuickReturnType quickReturnType, View headerView, int headerTranslation, View footerView, int footerTranslation){
-        mQuickReturnType = quickReturnType;
-        mHeader =  headerView;
-        mMinHeaderTranslation = headerTranslation;
-        mFooter =  footerView;
-        mMinFooterTranslation = footerTranslation;
+    private QuickReturnScrollViewOnScrollChangedListener(Builder builder) {
+        mQuickReturnViewType = builder.mQuickReturnViewType;
+        mHeader = builder.mHeader;
+        mMinHeaderTranslation = builder.mMinHeaderTranslation;
+        mFooter = builder.mFooter;
+        mMinFooterTranslation = builder.mMinFooterTranslation;
     }
     // endregion
-
 
     @Override
     public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
         int diff = oldt - t;
 
-        switch (mQuickReturnType){
+        switch (mQuickReturnViewType) {
             case HEADER:
-                if(diff <=0){ // scrolling down
-                    mHeaderDiffTotal = Math.max(mHeaderDiffTotal+diff, mMinHeaderTranslation);
+                if (diff <= 0) { // scrolling down
+                    mHeaderDiffTotal = Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation);
                 } else { // scrolling up
-                    mHeaderDiffTotal = Math.min(Math.max(mHeaderDiffTotal+diff, mMinHeaderTranslation), 0);
+                    mHeaderDiffTotal = Math.min(Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation), 0);
                 }
 
                 mHeader.setTranslationY(mHeaderDiffTotal);
                 break;
             case FOOTER:
-                if(diff <=0){ // scrolling down
+                if (diff <= 0) { // scrolling down
                     mFooterDiffTotal = Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation);
                 } else { // scrolling up
                     mFooterDiffTotal = Math.min(Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation), 0);
@@ -56,11 +56,11 @@ public class QuickReturnScrollViewOnScrollChangedListener implements NotifyingSc
                 mFooter.setTranslationY(-mFooterDiffTotal);
                 break;
             case BOTH:
-                if(diff <=0){ // scrolling down
-                    mHeaderDiffTotal = Math.max(mHeaderDiffTotal+diff, mMinHeaderTranslation);
+                if (diff <= 0) { // scrolling down
+                    mHeaderDiffTotal = Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation);
                     mFooterDiffTotal = Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation);
                 } else { // scrolling up
-                    mHeaderDiffTotal = Math.min(Math.max(mHeaderDiffTotal+diff, mMinHeaderTranslation), 0);
+                    mHeaderDiffTotal = Math.min(Math.max(mHeaderDiffTotal + diff, mMinHeaderTranslation), 0);
                     mFooterDiffTotal = Math.min(Math.max(mFooterDiffTotal + diff, -mMinFooterTranslation), 0);
                 }
 
@@ -69,4 +69,47 @@ public class QuickReturnScrollViewOnScrollChangedListener implements NotifyingSc
                 break;
         }
     }
+
+    // region Inner Classes
+
+    public static class Builder {
+        // Required parameters
+        private final QuickReturnViewType mQuickReturnViewType;
+
+        // Optional parameters - initialized to default values
+        private View mHeader = null;
+        private int mMinHeaderTranslation = 0;
+        private View mFooter = null;
+        private int mMinFooterTranslation = 0;
+
+        public Builder(QuickReturnViewType quickReturnViewType) {
+            mQuickReturnViewType = quickReturnViewType;
+        }
+
+        public Builder header(View header) {
+            mHeader = header;
+            return this;
+        }
+
+        public Builder minHeaderTranslation(int minHeaderTranslation) {
+            mMinHeaderTranslation = minHeaderTranslation;
+            return this;
+        }
+
+        public Builder footer(View footer) {
+            mFooter = footer;
+            return this;
+        }
+
+        public Builder minFooterTranslation(int minFooterTranslation) {
+            mMinFooterTranslation = minFooterTranslation;
+            return this;
+        }
+
+        public QuickReturnScrollViewOnScrollChangedListener build() {
+            return new QuickReturnScrollViewOnScrollChangedListener(this);
+        }
+    }
+
+    // endregion
 }

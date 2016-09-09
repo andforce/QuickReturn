@@ -1,140 +1,68 @@
-QuickReturn
-===========
+## DEPRECATED
 
-QuickReturn is a library which showcases the QuickReturn UI pattern.  It can be used for header views, footer views, or both header views and footer views.
+**QuickReturn** is deprecated. No more development will be taking place. At the time of creating this library <a href="https://developer.android.com/reference/android/support/design/widget/CoordinatorLayout.html">CoordinatorLayout</a> did not exist.  Please check out <a href="https://developer.android.com/reference/android/support/design/widget/CoordinatorLayout.html">CoordinatorLayout</a> as you should be able to implement all the similar functionality that is in this library with the help of <a href="https://developer.android.com/reference/android/support/design/widget/CoordinatorLayout.Behavior.html">Behaviors</a>.
 
-Support for ScrollView and ListView
+Thanks for all your support!
 
-Comes with examples of Twitter, Facebook, and Google+ QuickReturn views
+***
 
-Sample Usage
-============
+<img src="https://raw.githubusercontent.com/lawloretienne/QuickReturn/master/images/QuickReturn_feature_graphic.png">
 
-The example below shows how to set up a QuickReturn view as a header in a ListView
+**QuickReturn** is a library which showcases the **QuickReturn UI Pattern**.
 
-###### QuickReturnHeaderListFragment3.java
-```java
-public class QuickReturnHeaderListFragment3 extends ListFragment {
+The **QuickReturn UI Pattern** reveals or hides a header or footer as content is scrolled up or down.
 
-    // region Member Variables
-    private String[] mValues;
+This library has support for **RecyclerView**, **ListView**, and **ScrollView**.
 
-    @InjectView(android.R.id.list) ListView mListView;
-    @InjectView(R.id.quick_return_tv) TextView mQuickReturnTextView;
-    // endregion
+The samples in the project include examples of the **QuickReturn UI Pattern** as seen in **Google+**, **Facebook**, and **Twitter**.
 
-    // region Constructors
-    public static QuickReturnHeaderListFragment3 newInstance() {
-        QuickReturnHeaderListFragment3 fragment = new QuickReturnHeaderListFragment3();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-lawloretienne%2FQuickReturn-blue.svg?style=flat)](https://android-arsenal.com/details/3/698)
 
-    public QuickReturnHeaderListFragment3() {
-    }
-    // endregion
+## Setup
 
-    // region Lifecycle Methods
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+#### Gradle
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list_quick_return_header, container, false);
-        ButterKnife.inject(this, view);
-        return view;
-    }
+`compile 'com.github.lawloretienne:quickreturn:0.0.3'`
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        mValues = getResources().getStringArray(R.array.countries);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.list_item, R.id.item_tv, mValues);
-
-        mListView.setAdapter(adapter);
-
-        // Set up the QuickReturn scroll listener
-        int headerHeight = getActivity().getResources().getDimensionPixelSize(R.dimen.header_height2);
-        QuickReturnListViewOnScrollListener scrollListener = new QuickReturnListViewOnScrollListener(QuickReturnType.HEADER,
-                mQuickReturnTextView, -headerHeight, null, 0);
-        // Setting to true will slide the header and/or footer into view or slide out of view based 
-        // on what is visible in the idle scroll state
-        scrollListener.setCanSlideInIdleScrollState(true);
-        mListView.setOnScrollListener(scrollListener);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.reset(this);
-    }
-    // endregion
-}
+#### Maven
+```
+<dependency>
+    <groupId>com.github.lawloretienne</groupId>
+    <artifactId>quickreturn</artifactId>
+    <version>0.0.3</version>
+</dependency>
 ```
 
-###### fragment_list_quick_return_header.xml
-```xml
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+## Sample Usage
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@android:id/list"/>
+[Wiki Examples](https://github.com/lawloretienne/QuickReturn/wiki)
 
-    <com.etiennelawlor.quickreturn.views.CustomFontTextView
-        android:id="@+id/quick_return_tv"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/transparent_black_ninty"
-        android:textSize="22sp"
-        android:text="@string/header"
-        android:textColor="@android:color/white"
-        android:gravity="center"
-        app:textFont="Roboto_Bold"/>
+### Download Link
 
-</RelativeLayout>
-```
+https://www.dropbox.com/s/2vf3pzqme9r2gu1/app-release.apk?dl=0
 
-Download the app by clicking on the badge below.
+### QuickReturn Demo
 
-<a href="https://play.google.com/store/apps/details?id=com.etiennelawlor.quickreturn">
-  <img alt="Get it on Google Play" src="/images/en_generic_rgb_wo_60.png" />
-</a>
+[![QuickReturn Demo](http://img.youtube.com/vi/SxcvZ1qIyZ4/0.jpg)](https://www.youtube.com/watch?v=SxcvZ1qIyZ4)
 
-<img src="https://raw.githubusercontent.com/lawloretienne/QuickReturn/master/images/quick_return_demo.gif">
 
-Developed By
-============
+## Developed By
 
 * Etienne Lawlor 
  
 &nbsp;&nbsp;&nbsp;**Email** - lawloretienne@gmail.com
 
-&nbsp;&nbsp;&nbsp;**Website** - www.interapptiv3.com 
+&nbsp;&nbsp;&nbsp;**Website** - https://medium.com/@etiennelawlor
 
-Projects/Apps using QuickReturn
-===============================
+## Projects/Apps using QuickReturn
 
 - <a href="https://play.google.com/store/apps/details?id=com.tradehero.th">TradeHero</a>
+- <a href="https://play.google.com/store/apps/details?id=com.radpad.RadPad">RadPad</a>
 
 Feel free to contact me to add yours to this list.
 
-Todo
-====
-Convert library into an Android archive (.aar)
 
-License
-========
+## License
 
 ```
 Copyright 2014 Etienne Lawlor
